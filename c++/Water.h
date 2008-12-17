@@ -44,32 +44,84 @@ vector< vector<int> > Water::getNeighbors(const vector<int>& cfg) const
 {
 	vector< vector<int> > neighbors;
 
-	for(vector<int>::const_iterator iter = _buckets.begin();
-			iter != _buckets.end();
-			iter++)
-	{
-		int newval = cfg + *iter;
-		if(newval <= _end)
-			neighbors.push_back(newval);
-	}
+    // First, produce all individual "fills" and "dumps"
+    
+    for(size_t i = 0; i < cfg.size(); i++)
+    {
+        if(cfg[i] != _buckets[i])
+        {
+            vector<int> neighbor(cfg);
+            neighbor[i] = _buckets[i];
+            neighbors.push_back(neighbor);
+        }
+
+        if(cfg[i] != 0)
+        {
+            vector<int> neighbor(cfg);
+            neighbor[i] = 0;
+            neighbors.push_back(neighbor);
+        }
+    }
+
+    // Now, produce all "pours"
+    for(size_t from = 0; from < cfg.size(); from++)
+    {
+        for(size_t to = 0; to < cfg.size(); to++)
+        {
+            if(from == to)
+                continue;
+
+            // The amount we can pour is the smaller of the
+            // capacity of the target and whatever is in
+            // the source bucket.
+            int to_pour = min(_buckets[to] - cfg[to],
+                              cfg[from]);
+
+            if (to_pour > 0)
+            {
+                vector<int> neighbor(cfg);
+                neighbor[from] -= to_pour;
+                neighbor[to] += to_pour;
+                neighbors.push_back(neighbor);
+            }
+        }
+    }
 
 	return neighbors;
 }	
 
-bool Water::isSolution(const int& cfg) const
+bool Water::isSolution(const vector<int>& cfg) const
 {
-	return cfg == _end;
+    for(vector<int>::const_iterator iter = cfg.begin();
+            iter != cfg.end();
+            iter++)
+    {
+        if(*iter == _end)
+            return true;
+    }
+    
+    return false;
 }
 
-int Water::getStartConfig() const
+vector<int> Water::getStartConfig() const
 {
-	return vector<int>(buckets.size(), 0);
+	return vector<int>(_buckets.size(), 0);
 }
 
-string Water::stringFromConfig(const int& cfg) const
+string Water::stringFromConfig(const vector<int>& cfg) const
 {
 	stringstream s;
-	s << cfg;
+    s << "{";
+
+    for(size_t i = 0; i < cfg.size(); i++)
+    {
+        s << cfg[i] << "/(" << _buckets[i] << ")";
+
+        if (i < cfg.size() - 1)
+            s << ", ";
+    }
+    s << "}";
+ 
 	return s.str();
 }
 

@@ -1,5 +1,5 @@
 #
-# Created by gmakemake (Sparc Dec 16 2008) on Tue Dec 16 22:52:03 2008
+# Created by gmakemake (Darwin Dec 16 2008) on Tue Dec 16 23:30:53 2008
 #
 
 #
@@ -47,26 +47,19 @@ CCLIBFLAGS =
 ########## End of default flags
 
 
-CPP_FILES =	Board.cpp Jam.cpp Slide.cpp change.cpp clock.cpp lloyd.cpp vclock.cpp water.cpp
+CPP_FILES =	Board.cpp JamImpl.cpp SlideImpl.cpp change.cpp clock.cpp jam.cpp lloyd.cpp slide.cpp vclock.cpp water.cpp
 C_FILES =	
 S_FILES =	
 H_FILES =	Change.h Clock.h Jam.h Lloyd.h Puzzle.h Slide.h Solver.h VClock.h Water.h
 SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
 .PRECIOUS:	$(SOURCEFILES)
-OBJFILES =	Board.o 
+OBJFILES =	Board.o JamImpl.o SlideImpl.o 
 
 #
 # Main targets
 #
 
-# No "Jam" here, as it is unfinished
-all:	Slide change clock lloyd vclock water 
-
-Jam:	Jam.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o Jam Jam.o $(OBJFILES) $(CCLIBFLAGS)
-
-Slide:	Slide.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o Slide Slide.o $(OBJFILES) $(CCLIBFLAGS)
+all:	change clock jam lloyd slide vclock water 
 
 change:	change.o $(OBJFILES)
 	$(CXX) $(CXXFLAGS) -o change change.o $(OBJFILES) $(CCLIBFLAGS)
@@ -74,8 +67,14 @@ change:	change.o $(OBJFILES)
 clock:	clock.o $(OBJFILES)
 	$(CXX) $(CXXFLAGS) -o clock clock.o $(OBJFILES) $(CCLIBFLAGS)
 
+jam:	jam.o $(OBJFILES)
+	$(CXX) $(CXXFLAGS) -o jam jam.o $(OBJFILES) $(CCLIBFLAGS)
+
 lloyd:	lloyd.o $(OBJFILES)
 	$(CXX) $(CXXFLAGS) -o lloyd lloyd.o $(OBJFILES) $(CCLIBFLAGS)
+
+slide:	slide.o $(OBJFILES)
+	$(CXX) $(CXXFLAGS) -o slide slide.o $(OBJFILES) $(CCLIBFLAGS)
 
 vclock:	vclock.o $(OBJFILES)
 	$(CXX) $(CXXFLAGS) -o vclock vclock.o $(OBJFILES) $(CCLIBFLAGS)
@@ -88,11 +87,13 @@ water:	water.o $(OBJFILES)
 #
 
 Board.o:	Puzzle.h Slide.h
-Jam.o:	Jam.h Puzzle.h Solver.h
-Slide.o:	Puzzle.h Slide.h Solver.h
+JamImpl.o:	Jam.h Puzzle.h
+SlideImpl.o:	Puzzle.h Slide.h
 change.o:	Change.h Puzzle.h Solver.h
 clock.o:	Clock.h Puzzle.h Solver.h
+jam.o:	Jam.h Puzzle.h Solver.h
 lloyd.o:	Lloyd.h Puzzle.h Solver.h
+slide.o:	Puzzle.h Slide.h Solver.h
 vclock.o:	Puzzle.h Solver.h VClock.h
 water.o:	Puzzle.h Solver.h Water.h
 
@@ -106,7 +107,7 @@ archive.tgz:	$(SOURCEFILES) Makefile
 	tar cf - $(SOURCEFILES) Makefile | gzip > archive.tgz
 
 clean:
-	-/bin/rm $(OBJFILES) Jam.o Slide.o change.o clock.o lloyd.o vclock.o water.o core 2> /dev/null
+	-/bin/rm $(OBJFILES) change.o clock.o jam.o lloyd.o slide.o vclock.o water.o core 2> /dev/null
 
 realclean:        clean
-	-/bin/rm -rf Jam Slide change clock lloyd vclock water 
+	-/bin/rm -rf change clock jam lloyd slide vclock water 
