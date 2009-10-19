@@ -73,8 +73,7 @@ void solve(Puzzle<T>& puzzle, ostream& out = cout)
 				iter != neighbors.end();
 				iter++)
 		{
-			if((visited.insert(
-					std::pair<config_type, config_type>(*iter, currentCfg))).second)
+			if(visited.insert(make_pair(*iter, currentCfg)).second)
 			{
 				nConfigs++;
 
