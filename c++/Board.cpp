@@ -29,8 +29,8 @@ ostream& operator<<(ostream& os, const vector<int>& vec)
 bool
 Board::operator<(const Board& rhs) const
 {
-	if(!_beenCanonized) canonize();
-	if(!rhs._beenCanonized) rhs.canonize();
+	if(!_beenCanonicalized) canonicalize();
+	if(!rhs._beenCanonicalized) rhs.canonicalize();
 
 	return _canon < rhs._canon;
 }
@@ -48,7 +48,7 @@ Board::operator!=(const Board& rhs) const
 }
 
 void
-Board::canonize() const
+Board::canonicalize() const
 {
 	vector<bool> beenSeen(_puzzle->_numBlocks, false);
 
@@ -64,7 +64,7 @@ Board::canonize() const
 			beenSeen[_board[i]] = true;
 		}
 	}
-	_beenCanonized = true;
+	_beenCanonicalized = true;
 }
 
 

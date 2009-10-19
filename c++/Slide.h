@@ -33,22 +33,22 @@ struct Board
 	// integer >= 0 denotes a block
 	vector<int> _board;
 
-	// Canonized form of the board.  This is generated
+	// Canonicalized form of the board.  This is generated
 	// the first time it is needed and referred to
 	// afterwards
 	mutable vector<int> _canon;
-	mutable bool _beenCanonized;
+	mutable bool _beenCanonicalized;
 	
-	Board() : _puzzle(0), _beenCanonized(false) {} ;
+	Board() : _puzzle(0), _beenCanonicalized(false) {} ;
 
-	Board(Slide* puzzle) : _puzzle(puzzle), _beenCanonized(false) {} ;
+	Board(Slide* puzzle) : _puzzle(puzzle), _beenCanonicalized(false) {} ;
 
 	Board(const Board& rhs) : _puzzle(rhs._puzzle), _board(rhs._board),
-							  _canon(), _beenCanonized(false) {};
+							  _canon(), _beenCanonicalized(false) {};
 
 	Board& operator=(const Board& rhs)
 	{
-		_beenCanonized = false;
+		_beenCanonicalized = false;
 		_puzzle = rhs._puzzle;
 		_board = rhs._board;
 		return *this;
@@ -60,7 +60,7 @@ struct Board
 
 	bool operator!=(const Board& rhs) const;
 
-	void canonize() const;
+	void canonicalize() const;
 };
 
 
