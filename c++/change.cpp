@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <functional>
 #include "Change.h"
 #include "Solver.h"
 using namespace std;
@@ -44,6 +46,11 @@ int main(int argc, char** argv)
 	}
 
 	assert(!denominations.empty());
+
+    // Put the denominations in descending order, so we take the biggest
+    // steps first and include the biggest jumps at the beginning of the 
+    // solution.
+    sort(denominations.begin(), denominations.end(), greater<int>());
 
 	Change c(amt, denominations);
 	solver::solve(c);
