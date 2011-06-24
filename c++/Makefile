@@ -1,5 +1,5 @@
 #
-# Created by gmakemake (Darwin Dec 16 2008) on Tue Dec 16 23:30:53 2008
+# Created by makemake (Darwin Jun 23 2011) on Thu Jun 23 21:51:41 2011
 #
 
 #
@@ -42,6 +42,7 @@ COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c
 ########## Default flags (redefine these with a header.mak file if desired)
 CXXFLAGS =	-ggdb -Wall -ansi -pedantic
 CFLAGS =	-ggdb -Wall -ansi -pedantic
+BINDIR =./bin
 CLIBFLAGS =	-lm
 CCLIBFLAGS =	
 ########## End of default flags
@@ -59,28 +60,35 @@ OBJFILES =	Board.o JamImpl.o SlideImpl.o
 # Main targets
 #
 
-all:	change clock jam lloyd slide vclock water 
+all:	${BINDIR}/change ${BINDIR}/clock ${BINDIR}/jam ${BINDIR}/lloyd ${BINDIR}/slide ${BINDIR}/vclock ${BINDIR}/water 
 
-change:	change.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o change change.o $(OBJFILES) $(CCLIBFLAGS)
+${BINDIR}/change:	change.o $(OBJFILES)
+	@mkdir -p ${BINDIR}/
+	$(CXX) $(CXXFLAGS) -o ${BINDIR}/change change.o $(OBJFILES) $(CCLIBFLAGS)
 
-clock:	clock.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o clock clock.o $(OBJFILES) $(CCLIBFLAGS)
+${BINDIR}/clock:	clock.o $(OBJFILES)
+	@mkdir -p ${BINDIR}/
+	$(CXX) $(CXXFLAGS) -o ${BINDIR}/clock clock.o $(OBJFILES) $(CCLIBFLAGS)
 
-jam:	jam.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o jam jam.o $(OBJFILES) $(CCLIBFLAGS)
+${BINDIR}/jam:	jam.o $(OBJFILES)
+	@mkdir -p ${BINDIR}/
+	$(CXX) $(CXXFLAGS) -o ${BINDIR}/jam jam.o $(OBJFILES) $(CCLIBFLAGS)
 
-lloyd:	lloyd.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o lloyd lloyd.o $(OBJFILES) $(CCLIBFLAGS)
+${BINDIR}/lloyd:	lloyd.o $(OBJFILES)
+	@mkdir -p ${BINDIR}/
+	$(CXX) $(CXXFLAGS) -o ${BINDIR}/lloyd lloyd.o $(OBJFILES) $(CCLIBFLAGS)
 
-slide:	slide.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o slide slide.o $(OBJFILES) $(CCLIBFLAGS)
+${BINDIR}/slide:	slide.o $(OBJFILES)
+	@mkdir -p ${BINDIR}/
+	$(CXX) $(CXXFLAGS) -o ${BINDIR}/slide slide.o $(OBJFILES) $(CCLIBFLAGS)
 
-vclock:	vclock.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o vclock vclock.o $(OBJFILES) $(CCLIBFLAGS)
+${BINDIR}/vclock:	vclock.o $(OBJFILES)
+	@mkdir -p ${BINDIR}/
+	$(CXX) $(CXXFLAGS) -o ${BINDIR}/vclock vclock.o $(OBJFILES) $(CCLIBFLAGS)
 
-water:	water.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o water water.o $(OBJFILES) $(CCLIBFLAGS)
+${BINDIR}/water:	water.o $(OBJFILES)
+	@mkdir -p ${BINDIR}/
+	$(CXX) $(CXXFLAGS) -o ${BINDIR}/water water.o $(OBJFILES) $(CCLIBFLAGS)
 
 #
 # Dependencies
@@ -110,4 +118,4 @@ clean:
 	-/bin/rm $(OBJFILES) change.o clock.o jam.o lloyd.o slide.o vclock.o water.o core 2> /dev/null
 
 realclean:        clean
-	-/bin/rm -rf change clock jam lloyd slide vclock water 
+	-/bin/rm -rf ${BINDIR}/change ${BINDIR}/clock ${BINDIR}/jam ${BINDIR}/lloyd ${BINDIR}/slide ${BINDIR}/vclock ${BINDIR}/water 
