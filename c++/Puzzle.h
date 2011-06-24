@@ -15,10 +15,6 @@
 
 #include <vector>
 #include <iostream>
-/*
-using std::vector;
-using std::string;
-*/
 using namespace std;
 
 template <typename T>
@@ -32,7 +28,6 @@ public:
 		a < b <= a;
 	};
 */
-
 
 	typedef T config_type;
 
