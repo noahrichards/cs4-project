@@ -1,5 +1,5 @@
 (defpackage :com.noahsmark.cs4project
-  (:use :common-lisp :ext)
+  (:use :common-lisp)
   (:nicknames "The CS4 project, ported to common lisp"))
 
 (in-package :com.noahsmark.cs4project)
